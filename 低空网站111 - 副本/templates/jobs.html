@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招聘信息 - 深圳低空经济研究小组</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="/" class="nav-link">eVTOL 数据库</a>
+                <a href="/" class="nav-link">首页</a>
+                <a href="{{ url_for('jobs_list') }}" class="nav-link">招聘信息</a>
+            </div>
+            <div class="nav-right">
+                {% if user %}
+                    <span class="user-welcome">欢迎，{{ user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="nav-link">退出登录</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">登录</a>
+                    <a href="{{ url_for('register') }}" class="nav-link">注册</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="jobs-container">
+            <div class="jobs-header">
+                <h1>eVTOL行业招聘信息</h1>
+                {% if user %}
+                    <a href="{{ url_for('post_job') }}" class="post-job-btn">发布招聘</a>
+                {% endif %}
+            </div>
+            
+            <div class="jobs-list">
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <h2>{{ job.title }}</h2>
+                        <div class="job-info">
+                            <span class="company">{{ job.company }}</span>
+                            <span class="location">{{ job.location }}</span>
+                            <span class="salary">{{ job.salary_range }}</span>
+                        </div>
+                        <div class="job-description">
+                            {{ job.description }}
+                        </div>
+                        <div class="job-requirements">
+                            <h3>职位要求：</h3>
+                            {{ job.requirements }}
+                        </div>
+                        <div class="job-contact">
+                            联系方式：{{ job.contact_email }}
+                        </div>
+                        <div class="job-meta">
+                            发布时间：{{ job.created_at.strftime('%Y-%m-%d') }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</body>
+</html> 
